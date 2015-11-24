@@ -1,0 +1,7 @@
+/home/prayag/Downloads/zookeeper-3.4.6 #ZooKeeper root
+./bin/zkServer.sh start #start ZooKeeper server
+ bin/zkCli.sh -server 127.0.0.1:2181 #start ZooKeeper client
+ vi conf/zoo.cfg #ZooKeeper configuration file
+
+/home/prayag/IdeaProjects/InitialTest/target/classes
+java -cp .:/home/prayag/Downloads/zookeeper-3.4.6/zookeeper-3.4.6.jar:/home/prayag/Downloads/zookeeper-3.4.6/lib/* Testing 127.0.0.1:2181 10 #start the program
