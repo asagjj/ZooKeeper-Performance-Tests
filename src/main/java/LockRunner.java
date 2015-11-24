@@ -9,11 +9,10 @@ import java.util.List;
  */
 public class LockRunner implements RunnableTest, Watcher {
     private String[] hostsAndPorts;
-    private String[] lRoots;
+    private String lRoot = "/locks";
     private String rootPrefix = "/lockF";
-    private int timeOut = 100;
     private int numThreads = 1;
-    private int timeout = 1000000000;
+    private int timeout = 100;
 
     /**
      * Constructor for SyncReadWriteRunner
@@ -21,9 +20,7 @@ public class LockRunner implements RunnableTest, Watcher {
      * @param hostAndPort host and port number for the ZooKeeper client
      * @param numThreads  number of threads to be used for simulation
      */
-    public LockRunner(String[] hostAndPort, int numThreads, int numLocks) {
-        lRoots = new String[numLocks];
-        fillRoots(lRoots);
+    public LockRunner(String[] hostAndPort, int numThreads) {
         this.numThreads = numThreads;
         this.hostsAndPorts = hostAndPort;
     }
@@ -45,15 +42,13 @@ public class LockRunner implements RunnableTest, Watcher {
         for (int i = 0; i < numThreads; i++) {
             zks[i] = new ZooKeeper(hostsAndPorts[i % hostsAndPorts.length], timeout, this);
         }
-        for (String lRoot : lRoots) {
-            try {
-                zks[0].create(lRoot, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
-            } catch (KeeperException.NodeExistsException e) {
-            }
+        try {
+            zks[0].create(lRoot, new byte[0], ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
+        } catch (KeeperException.NodeExistsException e) {
         }
 
         for (int i = 0; i < numThreads; i++) {
-            lockClients[i] = new LockClient(zks[i], lRoots);
+            lockClients[i] = new LockClient(zks[i], lRoot);
             Thread t = new Thread(lockClients[i]);
             threads[i] = t;
             t.start();

@@ -22,38 +22,39 @@ public class LockClient implements Runnable, Watcher {
     private int messageId = 1;
     private String messageData = "TestData";
     private String lockPrefix = "/lock";
-    private String[] lRoots;
+    private String lRoot;
     private List<String> lockedPaths;
     CountDownLatch latch = new CountDownLatch(1);
+    private String createdPath;
 
     /**
      * Constructor for the lock client
      *
      * @param zk     ZooKeeper instance to use
-     * @param lRoots The root dirs of the locking protocol on ZooKeeper.
+     * @param lRoot The root dirs of the locking protocol on ZooKeeper.
      */
-    public LockClient(ZooKeeper zk, String[] lRoots) {
+    public LockClient(ZooKeeper zk, String lRoot) {
         id++;
         myId = id;
         this.zk = zk;
-        this.lRoots = lRoots;
-        lockedPaths = new ArrayList<String>(lRoots.length);
+        this.lRoot = lRoot;
+        //lockedPaths = new ArrayList<String>(lRoots.length);
     }
 
     /**
      * Obtain all the locks and release them.
      */
-    private void getAllLocks() throws KeeperException, InterruptedException {
-        for (String lRoot : lRoots) {
-            if (getLock(lRoot) == false) {
-                return;
-            }
-            System.out.println(myId + ": calling getAllLocks");
-        }
-        Thread.sleep(100);
-        removeAllLocks();
-        System.out.println(myId + ": Got all locks");
-    }
+//    private void getAllLocks() throws KeeperException, InterruptedException {
+//        for (String lRoot : lRoots) {
+//            if (getLock(lRoot) == false) {
+//                return;
+//            }
+//            System.out.println(myId + ": calling getAllLocks");
+//        }
+//        Thread.sleep(100);
+//        removeAllLocks();
+//        System.out.println(myId + ": Got all locks");
+//    }
 
     private void removeAllLocks() throws KeeperException, InterruptedException {
         for (String lockedPath : lockedPaths) {
@@ -68,8 +69,6 @@ public class LockClient implements Runnable, Watcher {
      * @param lRoot root node for the lock needed
      */
     private boolean getLock(String lRoot) throws KeeperException, InterruptedException {
-        String path = lRoot + lockPrefix;
-        String createdPath = zk.create(path, messageData.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
         String[] splitPath = createdPath.split("/");
         String createdChild = splitPath[splitPath.length - 1];
         List<String> children = zk.getChildren(lRoot, false);
@@ -96,7 +95,9 @@ public class LockClient implements Runnable, Watcher {
      */
     public void run() {
         try {
-            getAllLocks();
+            String path = lRoot + lockPrefix;
+            createdPath = zk.create(path, messageData.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
+            getLock(lRoot);
         } catch (KeeperException e) {
             System.out.println(myId + ": Exception thrown");
             e.printStackTrace();
@@ -115,7 +116,7 @@ public class LockClient implements Runnable, Watcher {
         System.out.println(myId + ": watcher event in LockClient");
         //latch.countDown();
         try {
-            getAllLocks();
+            getLock(lRoot);
         } catch (KeeperException e) {
             System.out.println(myId + ": Exception thrown");
             e.printStackTrace();

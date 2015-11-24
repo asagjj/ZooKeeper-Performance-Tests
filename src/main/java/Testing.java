@@ -33,7 +33,7 @@ public class Testing{
         //RunnableTest test = new QRunner(hostAndPort, numThreads);
         //test.runTest();
 
-        RunnableTest test = new LockRunner(new String[]{hostAndPort}, numThreads, 1);
+        RunnableTest test = new LockRunner(new String[]{hostAndPort}, numThreads);
         test.runTest();
         System.out.println("Finished!");
     }
