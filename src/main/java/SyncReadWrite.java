@@ -19,10 +19,15 @@ import java.util.List;
  */
 public class SyncReadWrite implements Runnable{
     private ZooKeeper zk;
-    private int reps = 100;
-    private long MILLI = (long) 10e8;
-    private String znodeName = "/TestNode";
+    private int reps = 1000;
+    private int readReps = reps * 1000;
+    private long NANO = (long) 10e8;
+    private String znodeName;
     private String znodeData = "TestData";
+    private double createTP;
+    private double readTP;
+    private double writeTP;
+    private double deleteTP;
 
     /**
      * Constructor for the test class
@@ -48,32 +53,36 @@ public class SyncReadWrite implements Runnable{
             zk.create(znodeName + i, znodeData.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.PERSISTENT);
         }
         long timeTaken = System.nanoTime() - startTime;
-        System.out.println((float) reps * MILLI / timeTaken + " creates per second");
+        createTP = (double) reps * NANO / timeTaken;
+        //System.out.println((double) reps * NANO / timeTaken + " creates per second");
 
         startTime = System.nanoTime();
-        for (int i = 0; i < reps; i++) {
-            byte[] data = zk.getData(znodeName + i, false, new Stat());
+        for (int i = 0; i < readReps; i++) {
+            byte[] data = zk.getData(znodeName + (i%reps), false, new Stat());
             String dataString = new String(data, CharsetUtil.US_ASCII);
             if (dataString.equals(znodeData) == false) {
                 System.out.println("Bad data! " + dataString + ", " + znodeData);
             }
         }
         timeTaken = System.nanoTime() - startTime;
-        System.out.println((float) reps * MILLI / timeTaken + " reads per second");
+        readTP = (double) readReps * NANO / timeTaken;
+        //System.out.println((double) readReps * NANO / timeTaken + " reads per second");
 
         startTime = System.nanoTime();
         for (int i = 0; i < reps; i++) {
             zk.setData(znodeName + i, (znodeData + "New").getBytes(), -1);
         }
         timeTaken = System.nanoTime() - startTime;
-        System.out.println((float) reps * MILLI / timeTaken + " writes per second");
+        writeTP = (double) reps * NANO / timeTaken;
+        //System.out.println((double) reps * NANO / timeTaken + " writes per second");
 
         startTime = System.nanoTime();
         for (int i = 0; i < reps; i++) {
             zk.delete(znodeName + i, -1);
         }
         timeTaken = System.nanoTime() - startTime;
-        System.out.println((float) reps * MILLI / timeTaken + " deletes per second");
+        deleteTP = (double) reps * NANO / timeTaken;
+        //System.out.println((double) reps * NANO / timeTaken + " deletes per second");
     }
 
     /**
@@ -87,5 +96,21 @@ public class SyncReadWrite implements Runnable{
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public double getCreateTP(){
+        return createTP;
+    }
+
+    public double getWriteTP() {
+        return writeTP;
+    }
+
+    public double getDeleteTP() {
+        return deleteTP;
+    }
+
+    public double getReadTP() {
+        return readTP;
     }
 }

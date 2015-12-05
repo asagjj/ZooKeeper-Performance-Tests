@@ -9,10 +9,12 @@ import java.util.List;
  */
 public class LockRunner implements RunnableTest, Watcher {
     private String[] hostsAndPorts;
-    private String lRoot = "/locks";
-    private String rootPrefix = "/lockF";
+    private String lRoot = "/locksA";
+    private String rootPrefix = "/lockG";
     private int numThreads = 1;
     private int timeout = 100;
+    private final long NANO = (long) 10e8;
+    private final long MILLI = (long) 10e5;
 
     /**
      * Constructor for SyncReadWriteRunner
@@ -49,12 +51,18 @@ public class LockRunner implements RunnableTest, Watcher {
 
         for (int i = 0; i < numThreads; i++) {
             lockClients[i] = new LockClient(zks[i], lRoot);
+        }
+
+        long startTime = System.nanoTime();
+        for (int i = 0; i < numThreads; i++) {
             Thread t = new Thread(lockClients[i]);
             threads[i] = t;
             t.start();
         }
-        Thread.sleep(1000);
+        //Thread.sleep(1000);
         for (Thread t : threads) t.join();
+        System.out.println("Acquired " + numThreads + " locks in " + (System.nanoTime() - startTime) / MILLI + " milli seconds");
+        for(ZooKeeper zk : zks) zk.close();
     }
 
     /**

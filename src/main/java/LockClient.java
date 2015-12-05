@@ -47,7 +47,7 @@ public class LockClient implements Runnable, Watcher {
 //    private void getAllLocks() throws KeeperException, InterruptedException {
 //        for (String lRoot : lRoots) {
 //            if (getLock(lRoot) == false) {
-//                return;
+//               return;
 //            }
 //            System.out.println(myId + ": calling getAllLocks");
 //        }
@@ -56,11 +56,9 @@ public class LockClient implements Runnable, Watcher {
 //        System.out.println(myId + ": Got all locks");
 //    }
 
-    private void removeAllLocks() throws KeeperException, InterruptedException {
-        for (String lockedPath : lockedPaths) {
-            zk.delete(lockedPath, -1);
-            System.out.println(myId + ": Removing " + lockedPath);
-        }
+    private void unlock() throws KeeperException, InterruptedException {
+        zk.delete(createdPath, -1);
+        //System.out.println(myId + ": Removing " + createdPath);
     }
 
     /**
@@ -75,15 +73,16 @@ public class LockClient implements Runnable, Watcher {
         Collections.sort(children);
         int idx = Collections.binarySearch(children, createdChild);
         if (idx == 0) {
-            System.out.println(myId + ": Got the lock for " + createdPath);
-            lockedPaths.add(createdPath);
+            //System.out.println(myId + ": Got the lock for " + createdPath);
             return true;
         } else {
-            System.out.println(myId + ": Couldn't get the lock for " + createdPath);
-            System.out.println(myId + ": Watching " + lRoot + "/" + children.get(idx-1) + ", " + createdPath);
+            //System.out.println(myId + ": Couldn't get the lock for " + createdPath);
+            //System.out.println(myId + ": Watching " + lRoot + "/" + children.get(idx-1) + ", " + createdPath);
             Stat stat = zk.exists(lRoot + "/" + children.get(idx - 1), this);
-            if(stat == null) getLock(lRoot);
-            System.out.println(myId + ": Watching " + stat.toString());
+            if(stat == null){
+                latch.countDown();
+            }
+            //System.out.println(myId + ": Watching " + stat.toString());
             //latch.await();
             //zk.delete(lRoot + "/" + children.get(idx-1), -1);
         }
@@ -97,7 +96,17 @@ public class LockClient implements Runnable, Watcher {
         try {
             String path = lRoot + lockPrefix;
             createdPath = zk.create(path, messageData.getBytes(), ZooDefs.Ids.OPEN_ACL_UNSAFE, CreateMode.EPHEMERAL_SEQUENTIAL);
-            getLock(lRoot);
+            if(getLock(lRoot) == true){
+                //Thread.sleep(10); //Doing CS
+                unlock();
+            }
+            else{
+                //System.out.println(myId + ": countdown event");
+                latch.await();
+                if(getLock(lRoot) == true) {
+                    unlock();
+                }
+            }
         } catch (KeeperException e) {
             System.out.println(myId + ": Exception thrown");
             e.printStackTrace();
@@ -107,22 +116,26 @@ public class LockClient implements Runnable, Watcher {
         }
     }
 
+
     /**
      * callback for ZooKeeper events
      *
      * @param watchedEvent event that we registered for
      */
     public void process(WatchedEvent watchedEvent) {
-        System.out.println(myId + ": watcher event in LockClient");
-        //latch.countDown();
-        try {
-            getLock(lRoot);
-        } catch (KeeperException e) {
-            System.out.println(myId + ": Exception thrown");
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            System.out.println(myId + ": Exception thrown");
-            e.printStackTrace();
-        }
+        //System.out.println(myId + ": watcher event in LockClient");
+        latch.countDown();
+        //try {
+        //    if(getLock(lRoot)) {
+        //        //Thread.sleep(10); //Doing CS
+        //        unlock();
+        //    }
+        //} catch (KeeperException e) {
+        //    System.out.println(myId + ": Exception thrown");
+        //    e.printStackTrace();
+        //} catch (InterruptedException e) {
+        //    System.out.println(myId + ": Exception thrown");
+        //    e.printStackTrace();
+        //}
     }
 }

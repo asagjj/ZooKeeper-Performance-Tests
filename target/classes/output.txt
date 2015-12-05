@@ -1,0 +1,147 @@
+1 ZooKeeper instance
+====================
+
+prayag@prayag-Inspiron-7548 ~/IdeaProjects/InitialTest/target/classes $ sh run.sh 
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 84.41414280346092 creates per second
+Average read throughput: 15303.244350091014 reads per second
+Average write throughput: 85.3044543970086 writes per second
+Average delete throughput: 85.94730402642834 deletes per second
+Average consumer throughput: 54.0 messages per second
+Acquired 1 locks in 21 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 41.154154628121006 creates per second
+Average read throughput: 11665.168703493364 reads per second
+Average write throughput: 44.35417725668913 writes per second
+Average delete throughput: 43.95700561461982 deletes per second
+Average consumer throughput: 78.5 messages per second
+Acquired 2 locks in 41 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 40.54702471370323 creates per second
+Average read throughput: 9114.861493203838 reads per second
+Average write throughput: 42.75434445276276 writes per second
+Average delete throughput: 42.26779324354021 deletes per second
+Average consumer throughput: 40.333333333333336 messages per second
+Acquired 3 locks in 52 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 39.90313613880599 creates per second
+Average read throughput: 7118.237540381482 reads per second
+Average write throughput: 43.8063028145456 writes per second
+Average delete throughput: 48.97188332961572 deletes per second
+Average consumer throughput: 40.0 messages per second
+Acquired 4 locks in 62 milli seconds
+Finished!
+==============================================
+
+
+2 ZooKeeper instances
+====================================================
+prayag@prayag-Inspiron-7548 ~/IdeaProjects/InitialTest/target/classes $ sh run.sh 
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 65.3344112911862 creates per second
+Average read throughput: 15065.838610164537 reads per second
+Average write throughput: 75.53511354082043 writes per second
+Average delete throughput: 74.18798521364104 deletes per second
+Average consumer throughput: 70.0 messages per second
+Acquired 1 locks in 32 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 39.62250704504021 creates per second
+Average read throughput: 10971.034484316559 reads per second
+Average write throughput: 39.966973672980416 writes per second
+Average delete throughput: 41.31923308022904 deletes per second
+Average consumer throughput: 75.5 messages per second
+Acquired 2 locks in 74 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 38.19852027298506 creates per second
+Average read throughput: 8857.08911402118 reads per second
+Average write throughput: 68.45838154098399 writes per second
+Average delete throughput: 68.35565169409772 deletes per second
+Average consumer throughput: 44.333333333333336 messages per second
+Acquired 3 locks in 88 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 37.41084989865743 creates per second
+Average read throughput: 7031.79027079734 reads per second
+Average write throughput: 47.916246685206396 writes per second
+Average delete throughput: 46.82480475250141 deletes per second
+Average consumer throughput: 40.75 messages per second
+Acquired 4 locks in 125 milli seconds
+Finished!
+==============================================
+
+
+3 ZooKeeper instances
+
+prayag@prayag-Inspiron-7548 ~/IdeaProjects/InitialTest/target/classes $ sh run.sh 
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 36.60017413905353 creates per second
+Average read throughput: 12327.796566486162 reads per second
+Average write throughput: 42.65675747869909 writes per second
+Average delete throughput: 42.67030479829901 deletes per second
+Average consumer throughput: 42.0 messages per second
+Acquired 1 locks in 43 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 23.862847860032595 creates per second
+Average read throughput: 9490.768912783029 reads per second
+Average write throughput: 36.36003424410267 writes per second
+Average delete throughput: 36.44591891318141 deletes per second
+Average consumer throughput: 38.5 messages per second
+Acquired 2 locks in 132 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 21.710160345601334 creates per second
+Average read throughput: 8006.461895281337 reads per second
+Average write throughput: 28.93166305052452 writes per second
+Average delete throughput: 29.175113552457237 deletes per second
+Average consumer throughput: 20.333333333333332 messages per second
+Acquired 3 locks in 121 milli seconds
+Finished!
+==============================================
+log4j:WARN No appenders could be found for logger (org.apache.zookeeper.ZooKeeper).
+log4j:WARN Please initialize the log4j system properly.
+log4j:WARN See http://logging.apache.org/log4j/1.2/faq.html#noconfig for more info.
+Average create throughput: 21.28885338540951 creates per second
+Average read throughput: 5867.57463095753 reads per second
+Average write throughput: 34.06443013860059 writes per second
+Average delete throughput: 33.6890968889205 deletes per second
+Average consumer throughput: 22.0 messages per second
+Acquired 4 locks in 132 milli seconds
+Finished!
+==============================================
+
